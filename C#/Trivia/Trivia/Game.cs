@@ -84,7 +84,10 @@ namespace Trivia
             else
             {
                 _places[_currentPlayer] = _places[_currentPlayer] + roll;
-                if (_places[_currentPlayer] > 11) _places[_currentPlayer] = _places[_currentPlayer] - 12;
+                if (_places[_currentPlayer] > 11) 
+                {
+                    _places[_currentPlayer] = _places[_currentPlayer] - 12;
+                }
 
                 Console.WriteLine(_players[_currentPlayer]
                         + "'s new location is "
@@ -117,7 +120,7 @@ namespace Trivia
                 _rockQuestions.RemoveFirst();
             }
         }
-
+//Check the current player place and gives him his category.
         private string CurrentCategory()
         {
             if (_places[_currentPlayer] == 0) return "Pop";
