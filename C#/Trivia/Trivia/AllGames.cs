@@ -14,10 +14,6 @@ namespace Trivia
         protected int _nbCategory = 4;
         protected int _maxPoints = 0;
 
-        public AllGames()
-		{
-		
-		}
         //Verify the minimum Player count.
         public bool IsPlayable()
         {
@@ -25,9 +21,9 @@ namespace Trivia
 
         }
         //Return player at the 1st places of the game.
-        private void ResetPlayerPlace(int roll)
+        private void ResetPlayerPlace(int set)
         {
-            _places[_currentPlayer] = _places[_currentPlayer] + roll;
+            _places[_currentPlayer] = _places[_currentPlayer] + set;
             if (_places[_currentPlayer] >= _maxPlaces)
             {
                 _places[_currentPlayer] = _places[_currentPlayer] - _maxPlaces;
@@ -46,6 +42,7 @@ namespace Trivia
             _players.Add(playerName);
 
             int howManyPlayers = _players.Count;
+
             _places[howManyPlayers] = 0;
             _purses[howManyPlayers] = 0;
             _inPenaltyBox[howManyPlayers] = false;
@@ -55,7 +52,7 @@ namespace Trivia
             return true;
         }
         //Make sure the current player have the max points
-        private bool DidPlayerWin()
+        private bool DidPlayerWin(int _maxPoints)
         {
             return !(_purses[_currentPlayer] == _maxPoints);
         }

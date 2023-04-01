@@ -6,22 +6,12 @@ namespace Trivia
 {
     public class Game : AllGames
     {
-        private readonly List<string> _players = new List<string>();
-
-        private readonly int[] _places = new int[6];
-        private readonly int _maxPlaces = 11;
-        private readonly int[] _purses = new int[6];
-
         private readonly bool[] _inPenaltyBox = new bool[6];
 
         private readonly LinkedList<string> _popQuestions = new LinkedList<string>();
         private readonly LinkedList<string> _scienceQuestions = new LinkedList<string>();
         private readonly LinkedList<string> _sportsQuestions = new LinkedList<string>();
         private readonly LinkedList<string> _rockQuestions = new LinkedList<string>();
-
-        private  int _currentPlayer;
-        private readonly int _nbCategory = 4;
-        private bool _isGettingOutOfPenaltyBox;
 
         public Game()
         {
@@ -34,26 +24,7 @@ namespace Trivia
             }
         }
 
-//Verify the minimum Player count.
-        public bool IsPlayable()
-        {
-            return _players.Count >=2;
-
-        }
-//Initialize player name, purses and make sure he's out of the PenaltyBox.
-        public bool Add(string playerName)
-        {
-            _players.Add(playerName); 
-            int howManyPlayers = _players.Count;
-            _places[howManyPlayers] = 0;
-            _purses[howManyPlayers] = 0;
-            _inPenaltyBox[howManyPlayers] = false;
-
-            Console.WriteLine(playerName + " was added");
-            Console.WriteLine("They are player number " + _players.Count);
-            return true;
-        }
-//Decide if a player can get out of the penalty bax during roll in the game;
+        //Decide if a player can get out of the penalty bax during roll in the game;
         public void Roll(int roll)
         {
             Console.WriteLine(_players[_currentPlayer] + " is the current player");
@@ -92,15 +63,6 @@ namespace Trivia
                 AskQuestion(CurrentCategory());
             }
         }
-    //Return player at the 1st places of the game.
-        private void ResetPlayerPlace(int roll)
-        {
-            _places[_currentPlayer] = _places[_currentPlayer] + roll;
-            if (_places[_currentPlayer] >= _maxPlaces)
-            {
-                _places[_currentPlayer] = _places[_currentPlayer] - _maxPlaces;
-            }
-        }
 
         //Allow to ask the question depending on the category.
         private void AskQuestion(string category)
@@ -126,10 +88,10 @@ namespace Trivia
             }
         }
         
-//Check the current player place and gives him his category.
-private string CurrentCategory()
+        //Check the current player place and gives him his category.
+        private string CurrentCategory()
         {
-            int mod = _places[_currentPlayer] % _nbCategory;
+            int mod = _places[_currentPlayer] % _nbCategory(4);
             switch(mod)
             {
             case 0:
@@ -143,7 +105,7 @@ private string CurrentCategory()
             }
         }
 
-//Gives player purses when he gives a correct answer.
+        //Gives player purses when he gives a correct answer.
         public bool WasCorrectlyAnswered()
         {
                 if (_isGettingOutOfPenaltyBox)
@@ -155,7 +117,7 @@ private string CurrentCategory()
                         + _purses[_currentPlayer]
                         + " Gold Coins.");
 
-                var winner = DidPlayerWin();
+                var winner = DidPlayerWin(6);
                 NextPlayer();
                 return winner;
                 
@@ -167,13 +129,7 @@ private string CurrentCategory()
             }
         }
 
-        private void NextPlayer()
-        {
-            _currentPlayer++;
-            if (_currentPlayer == _players.Count) _currentPlayer = 0;
-        }
-
-//Put the player in the penaltybox if he gives a rong answer.
+        //Put the player in the penaltybox if he gives a rong answer.
         public bool WrongAnswer()
         {
             Console.WriteLine("Question was incorrectly answered");
@@ -183,12 +139,4 @@ private string CurrentCategory()
             NextPlayer();
             return true;
         }
-
-//Make sure the current player have more than
-        private bool DidPlayerWin()
-        {
-            return !(_purses[_currentPlayer] == 6);
-        }
-    }
-
 }
