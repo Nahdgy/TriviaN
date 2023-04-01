@@ -2,7 +2,7 @@
 
 namespace Trivia
 {
-    public class GameRunner
+    public class GameRunner : AllGames
     {
         private static bool _notAWinner;
 

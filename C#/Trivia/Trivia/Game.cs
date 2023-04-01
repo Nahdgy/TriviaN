@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Trivia
 {
-    public class Game
+    public class Game : AllGames
     {
         private readonly List<string> _players = new List<string>();
 
